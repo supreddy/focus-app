@@ -13,7 +13,7 @@ export const userSlice = createSlice({
     setCurrentUser: (state, action) => {
       state.value = action.payload;
     },
-  },
+  }
 });
 
 export const { setCurrentUser } = userSlice.actions;
