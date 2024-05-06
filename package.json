@@ -13,6 +13,8 @@
     "@mui/material": "^5.14.5",
     "@nhost/react": "^0.13.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@stripe/react-stripe-js": "^2.7.0",
+    "@stripe/stripe-js": "^3.3.0",
     "@tailwindcss/forms": "^0.5.3",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
@@ -37,6 +39,7 @@
     "react-slider": "^2.0.4",
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
+    "stripe": "^15.5.0",
     "tailwindcss": "^3.0.24",
     "vite-plugin-top-level-await": "^1.4.1",
     "web-vitals": "^2.1.0"

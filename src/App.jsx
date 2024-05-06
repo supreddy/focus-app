@@ -5,8 +5,9 @@ import Home from './page/Home';
 import Notes from './page/Notes';
 import Signup from './page/Signup';
 import Login from './page/Login';
-import CompanyProfile from './page/CompanyProfile'
-import CarouselPage from './page/CarouselPage'
+import CompanyProfile from './page/CompanyProfile';
+import CarouselPage from './page/CarouselPage';
+import Payments from './page/Payments'
 import { Routes, Route } from 'react-router-dom';
 // import Navbar from './components/widgets/Navbar';
 import Layout from './components/widgets/Layout';
@@ -70,6 +71,12 @@ function App() {
                   }
                 />
 
+                <Route
+                  path="/payments"
+                  element={
+                    < Payments />
+                  }
+                />
               </Route>
 
               <Route path="/signup" element={<Signup />} />
