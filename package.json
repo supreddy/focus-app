@@ -35,11 +35,14 @@
     "react-router-dom": "^6.3.0",
     "react-select-us-states": "^0.1.2",
     "react-slider": "^2.0.4",
+    "react-toastify": "^10.0.5",
     "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
+    "swiper": "^11.1.1",
     "tailwindcss": "^3.0.24",
     "vite-plugin-top-level-await": "^1.4.1",
-    "web-vitals": "^2.1.0"
+    "web-vitals": "^2.1.0",
+    "yup": "^1.4.0"
   },
   "scripts": {
     "dev": "vite",

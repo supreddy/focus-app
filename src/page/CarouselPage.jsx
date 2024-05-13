@@ -1,8 +1,21 @@
-import React, { useState } from 'react'; 
+// import React, { useState } from 'react'; 
 import { Document, Page,pdfjs } from 'react-pdf'; 
 import { auth } from '../firebase';
 import axios from "axios";
+import { register } from 'swiper/element/bundle';
+import React, { useRef, useState } from 'react';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
 
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+
+import './styles.css';
+
+// import required modules
+import { EffectCoverflow, Pagination } from 'swiper/modules';
 
 const url = 
 "https://cors-anywhere.herokuapp.com/http://www.pdf995.com/samples/pdf.pdf"
@@ -37,9 +50,63 @@ export default function CarouselPage() {
       changePage(1); 
     } 
 
+    register();
     return ( 
+      //** Added this code for Carousel using swiper Carousel for reference url :: https://swiperjs.com/demos*/
       <> 
-      <div className="main"> 
+        <Swiper
+        effect={'coverflow'}
+        grabCursor={true}
+        centeredSlides={true}
+        slidesPerView={'auto'}
+        loop={'true'}
+        autoplay={{
+          delay:8000,
+          disableOnInteraction:false
+        }}
+        coverflowEffect={{
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        }}
+        pagination={true}
+        modules={[EffectCoverflow, Pagination]}
+        className="mySwiper"
+      >
+        <SwiperSlide>
+          <img src="karousel_images\karousel_image_01.jpeg"/>
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="karousel_images\karousel_image_02.jpeg"/>
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="karousel_images\karousel_image_03.jpeg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="karousel_images\karousel_image_04.jpeg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="karousel_images\karousel_image_03.jpeg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="karousel_images\karousel_image_02.jpeg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="karousel_images\karousel_image_01.jpeg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="karousel_images\karousel_image_04.jpeg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src="karousel_images\karousel_image_02.jpeg" />
+        </SwiperSlide>
+      </Swiper>
+      
+      
+      
+      {/* <div className="main"> 
       <Document 
         file={url} 
         onLoadSuccess={onDocumentLoadSuccess} 
@@ -68,7 +135,7 @@ export default function CarouselPage() {
         </button> 
         </div> 
       </div> 
-      </div> 
+      </div>  */}
       </> 
     ); 
 }

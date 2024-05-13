@@ -14,7 +14,7 @@ const ProtectedRoute = ({ user, children }) => {
             </div>
 
 
-            <div className="main-width md:pr-4">
+            <div className="main-width md:pr-4 bg-slate-200">
                 <Navbar />
                 <Outlet />
             </div>
