@@ -1,8 +1,19 @@
-import React, { useEffect, useState } from 'react'; 
-import "react-image-gallery/styles/css/image-gallery.css";
-import ImageGallery from "react-image-gallery";
 import { auth } from '../firebase';
 import axios from "axios";
+import { register } from 'swiper/element/bundle';
+import React, { useEffect, useState } from 'react';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/effect-coverflow';
+import 'swiper/css/pagination';
+
+import './styles.css';
+
+// import required modules
+import { EffectCoverflow, Pagination } from 'swiper/modules';
 
 
 export default function CarouselPage() { 
@@ -16,7 +27,7 @@ export default function CarouselPage() {
         headers: { Authorization: `Bearer ${token}` }
       };
   
-      axios.get("http://localhost:1977/invoicetemplates", config)
+      axios.get("https://blinkinvoice-backend.vercel.app/invoicetemplates", config)
       .then((response) => {
           // handle the response
           setImages(response.data);
@@ -24,10 +35,50 @@ export default function CarouselPage() {
     });
   })
 
-  console.log(images);
+  //console.log(images);
 
-  return (
-     <ImageGallery items={images} />
-  );
- 
+    /*To Prevent right click on screen*/
+    document.addEventListener("contextmenu", (event) => { 
+      event.preventDefault(); 
+    }); 
+      
+
+    register();
+
+    return (
+        <Swiper
+          effect={'coverflow'}
+          grabCursor={true}
+          centeredSlides={true}
+          slidesPerView={'auto'}
+          loop={'true'}
+          autoplay={{
+            delay:5000,
+            disableOnInteraction:false
+          }}
+          coverflowEffect={{
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          pagination={true}
+          modules={[EffectCoverflow, Pagination]}
+          className="mySwiper"
+          onClick={() => console.log('click')}
+        >
+        {
+          images.map( (image, index) => { 
+            return (
+              <>
+              <SwiperSlide key={index}>
+                <img src={image.img}/>
+              </SwiperSlide>
+              </>
+            )
+          })
+        }
+        </Swiper>
+    )
 }
