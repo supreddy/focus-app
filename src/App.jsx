@@ -70,6 +70,12 @@ function App() {
                   }
                 />
 
+                <Route
+                  path="/user"
+                  element={
+                    < UserCreation />
+                  }
+                />
               </Route>
 
               <Route path="/signup" element={<Signup />} />
