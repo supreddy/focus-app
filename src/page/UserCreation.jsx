@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
+import MultiSelect  from '../components/widgets/MultiSelect';
 import axios from 'axios';
 import { auth } from '../firebase';
 import * as Yup from 'yup';
-import SelectUSState from 'react-select-us-states';
+
 
 
 async function callMyAPI(url, dataToSend) {
@@ -27,48 +28,26 @@ async function callMyAPI(url, dataToSend) {
     });
 }
 
-const CompanyProfile = () => {
+const UserCreation = () => {
     const [loading, setLoading] = useState(false);
-    const [selectedFile, setSelectedFile] = useState('');
-    const [USState, setUSState] = useState('');
+    const [role, setRole] = useState('');
 
     const initialValues = {
-        companyName: '',
-        taxID: '',
+        firstname: '',
+        lastname: '',
         email: '',
         mobile: '',
-        addressline1: '',
-        city: '',
-        postalcode: '',
-        USstate: '',
-        logoUrl: '',
+        designation: '',
+        role: ''
     };
 
     const validationSchema = Yup.object().shape({
-        companyName: Yup.string().required('Company Name is required'),
-        taxID: Yup.string().required('Tax ID is required'),
+        firstname: Yup.string().required('First Name is required'),
+        lastname: Yup.string().required('Last Name is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
         mobile: Yup.string().required('Mobile is required'),
-        addressline1: Yup.string().required('Address Line 1 is required'),
-        city: Yup.string().required('City is required'),
-        postalcode: Yup.string().required('Postalcode is required')
+        role: Yup.string().required('Role is required')
     });
-
-    const onFileChange = async (event) => {
-        const formData = new FormData();
-        formData.append('myFile', event.target.files[0]);
-        try {
-            const response = await axios.post('https://blinkinvoice-backend.vercel.app/uploadlogo', formData);
-            var urlparts = response.data.url.split('?');
-            if (urlparts.length >= 2) {
-                setSelectedFile(urlparts[0]);
-            } else {
-                console.log('Malformed URL');
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     const onSubmitProfileForm = async (values, { setSubmitting }) => {
         setLoading(true);
@@ -76,15 +55,11 @@ const CompanyProfile = () => {
                 // Prepare the JSON with the values
         // and POST to the backend
         const dataToSend = {
-            "companyName": values.companyName,
-            "taxID": values.taxID,
+            "firstname": values.firstname,
+            "lastname": values.lastname,
             "email": values.email,
             "mobile": values.mobile,
-            "addressline1": values.addressline1,
-            "city": values.city,
-            "postalcode": values.postalcode,
-            "USstate": USState,
-            "logoUrl": selectedFile
+            "role": role
           }
   
         await callMyAPI("https://blinkinvoice-backend.vercel.app/companyprofile", dataToSend);
@@ -102,66 +77,35 @@ const CompanyProfile = () => {
             >
                 {({ isSubmitting, errors, touched }) => (
                     <Form className="space-y-6">
-                        <div className="border border-slate-400 rounded-lg p-6">
-                            <label htmlFor="logo" className="block text-sm font-medium text-gray-500 mb-2">
-                                Upload Company Logo
-                            </label>
-                            <div className="flex justify-center items-center">
-                                <input
-                                    type="file"
-                                    id="logo"
-                                    name="logo"
-                                    className="hidden"
-                                    onChange={onFileChange}
-                                />
-                                <label
-                                    htmlFor="logo"
-                                    className="cursor-pointer border border-dashed border-gray-400 rounded-lg p-4"
-                                >
-                                    <svg
-                                        className="w-8 h-8 mx-auto mb-2 text-gray-400"
-                                        fill="none"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path d="M12 5v7m0 0v7m0-7h7m-7 0H5" />
-                                    </svg>
-                                    <span className="text-gray-400">Choose a file</span>
-                                </label>
-                            </div>
-                        </div>
                         <div>
                             <div className="grid grid-cols-1 gap-y-6 md:grid-cols-2 md:gap-x-6">
-                                {/* Company Name */}
+                                {/* First Name */}
                                 <div>
-                                    <label htmlFor="companyName" className="block text-sm font-medium text-gray-500">
-                                        Company Name
+                                    <label htmlFor="firstname" className="block text-sm font-medium text-gray-500">
+                                        First Name
                                     </label>
                                     <Field
                                         type="text"
-                                        id="companyName"
-                                        name="companyName"
+                                        id="firstname"
+                                        name="firstname"
                                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                        placeholder="Company Name"
+                                        placeholder="First Name"
                                     />
-                                    <ErrorMessage name="companyName" component="div" className="text-red-600 font-mono mr-2 mt-2" />
+                                    <ErrorMessage name="firstname" component="div" className="text-red-600 font-mono mr-2 mt-2" />
                                 </div>
-                                {/* Tax ID */}
+                                {/* Last Name */}
                                 <div>
-                                    <label htmlFor="taxID" className="block text-sm font-medium text-gray-500">
-                                        Tax ID
+                                    <label htmlFor="lastname" className="block text-sm font-medium text-gray-500">
+                                        Last Name
                                     </label>
                                     <Field
                                         type="text"
-                                        id="taxID"
-                                        name="taxID"
+                                        id="lastname"
+                                        name="lastname"
                                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                        placeholder="Tax ID"
+                                        placeholder="Last Name"
                                     />
-                                    <ErrorMessage name="taxID" component="div" className="text-red-600 font-mono mr-2 mt-2" />
+                                    <ErrorMessage name="lastname" component="div" className="text-red-600 font-mono mr-2 mt-2" />
                                 </div>
                                 {/* Email */}
                                 <div>
@@ -191,57 +135,34 @@ const CompanyProfile = () => {
                                     />
                                     <ErrorMessage name="mobile" component="div" className="text-red-600 font-mono mr-2 mt-2" />
                                 </div>
-                                {/* Address Line 1 */}
+                                {/* Designation */}
                                 <div>
-                                    <label htmlFor="addressline1" className="block text-sm font-medium text-gray-500">
-                                        Address Line 1
+                                    <label htmlFor="designation" className="block text-sm font-medium text-gray-500">
+                                        Designation
                                     </label>
                                     <Field
                                         type="text"
-                                        id="addressline1"
-                                        name="addressline1"
+                                        id="designation"
+                                        name="designation"
                                         className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                        placeholder="Address Line 1"
+                                        placeholder="Designation"
                                     />
-                                    <ErrorMessage name="addressline1" component="div" className="text-red-600 font-mono mr-2 mt-2" />
+                                    <ErrorMessage name="designation" component="div" className="text-red-600 font-mono mr-2 mt-2" />
                                 </div>
-                                {/* City */}
+                                {/* Role */}
                                 <div>
-                                    <label htmlFor="city" className="block text-sm font-medium text-gray-500">
-                                        City
+                                    <label htmlFor="role" className="block text-sm font-medium text-gray-500">
+                                        Role
                                     </label>
                                     <Field
-                                        type="text"
-                                        id="city"
-                                        name="city"
-                                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                        placeholder="City"
-                                    />
-                                    <ErrorMessage name="city" component="div" className="text-red-600 font-mono mr-2 mt-2" />
-                                </div>
-                                {/* Postalcode */}
-                                <div>
-                                    <label htmlFor="postalcode" className="block text-sm font-medium text-gray-500">
-                                        Postalcode
-                                    </label>
-                                    <Field
-                                        type="text"
-                                        id="postalcode"
-                                        name="postalcode"
-                                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                        placeholder="Postalcode"
-                                    />
-                                    <ErrorMessage name="postalcode" component="div" className="text-red-600 font-mono mr-2 mt-2" />
-                                </div>
-                                {/* State */}
-                                <div>
-                                    <label htmlFor="USstate" className="block text-sm font-medium text-gray-500">
-                                        State
-                                    </label>
-                                    <SelectUSState
-                                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                        onChange={(value) => setUSState(value)}
-                                    />
+                                        className="custom-select"
+                                        name="role"
+                                        options={[{label: "User", value: "User"},
+                                          {label: "Finance", value: "finance"}]}
+                                        component={MultiSelect}
+                                        placeholder="Select role..."
+                                        isMulti={true}
+                                    />                                    
                                     <ErrorMessage name="USstate" component="div" className="text-red-600 font-mono mr-2 mt-2" />
                                 </div>
                             </div>
@@ -269,7 +190,7 @@ const CompanyProfile = () => {
     );
 };
 
-export default CompanyProfile;
+export default UserCreation;
 
 
 

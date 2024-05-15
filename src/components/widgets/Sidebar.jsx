@@ -15,8 +15,6 @@ const Sidebar = () => {
                     <Text className="text-2xl font-bold">
                         F<span className="text-tertiary">V</span>
                     </Text>
-
-
                 </div>
 
 
@@ -34,7 +32,7 @@ const Sidebar = () => {
                 </NavLink>
 
                 <NavLink
-                    to="/notes"
+                    to="/user"
                     className={({ isActive }) =>
                         isActive ? "bg-secondary w-full block border-l-2 border-l-tertiary mr-2 py-3  text-sm"
                             :
@@ -42,7 +40,7 @@ const Sidebar = () => {
                     }
                 >
                     <li className="p-4">
-                        Notes
+                        User Management
                     </li>
                 </NavLink>
 
