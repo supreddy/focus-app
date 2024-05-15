@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
+import MultiSelect  from '../components/widgets/MultiSelect';
 import axios from 'axios';
 import { auth } from '../firebase';
 import * as Yup from 'yup';
@@ -151,12 +152,17 @@ const UserCreation = () => {
                                 {/* Role */}
                                 <div>
                                     <label htmlFor="role" className="block text-sm font-medium text-gray-500">
-                                        State
+                                        Role
                                     </label>
-                                    <SelectRole
-                                        className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                        onChange={(value) => setRole(value)}
-                                    />
+                                    <Field
+                                        className="custom-select"
+                                        name="role"
+                                        options={[{label: "User", value: "User"},
+                                          {label: "Finance", value: "finance"}]}
+                                        component={MultiSelect}
+                                        placeholder="Select role..."
+                                        isMulti={true}
+                                    />                                    
                                     <ErrorMessage name="USstate" component="div" className="text-red-600 font-mono mr-2 mt-2" />
                                 </div>
                             </div>

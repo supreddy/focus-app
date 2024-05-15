@@ -5,11 +5,11 @@ import Home from './page/Home';
 import Notes from './page/Notes';
 import Signup from './page/Signup';
 import Login from './page/Login';
-import CompanyProfile from './page/CompanyProfile'
-import CarouselPage from './page/CarouselPage'
+import CompanyProfile from './page/CompanyProfile';
+import CarouselPage from './page/CarouselPage';
+import UserCreation from './page/UserCreation';
 import { Routes, Route } from 'react-router-dom';
-// import Navbar from './components/widgets/Navbar';
-import Layout from './components/widgets/Layout';
+
 import { BrowserRouter as Router } from 'react-router-dom';
 import NoteDetail from './page/NoteDetail';
 import ProtectedRoute from './components/widgets/ProtectedRoute';
