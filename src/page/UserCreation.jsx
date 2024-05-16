@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import MultiSelect  from '../components/widgets/MultiSelect';
+import Select from 'react-select';
 import axios from 'axios';
 import { auth } from '../firebase';
 import * as Yup from 'yup';
@@ -38,18 +38,64 @@ const UserCreation = () => {
         email: '',
         mobile: '',
         designation: '',
-        role: ''
+        role:''
     };
 
     const validationSchema = Yup.object().shape({
         firstname: Yup.string().required('First Name is required'),
         lastname: Yup.string().required('Last Name is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
-        mobile: Yup.string().required('Mobile is required'),
-        role: Yup.string().required('Role is required')
+        mobile: Yup.string().required('Mobile is required')
     });
 
-    const onSubmitProfileForm = async (values, { setSubmitting }) => {
+    const MultiSelect = ({field, form, options, isMulti = false, placeholder = 'Select'}) => {
+        function onChange(option) {
+            form.setFieldValue(
+                field.name,
+                option ? (option).map((item) => item.value) : [],
+            );
+            console.log(option);
+            setRole(option);
+        }
+    
+        const getValue = () => {
+            if (options) {
+                return isMulti
+                    ? options.filter((option) => {console.log(field); if(option) {field.value.indexOf(option.value) >= 0}})
+                    : options.find((option) => option.value === field.value);
+            } else {
+                return isMulti ? [] : ('');
+            }
+        };
+    
+        if (!isMulti) {
+            return (
+                <Select
+                    options={options}
+                    name={field.name}
+                    value={options ? options.find(option => option.value === field.value) : ''}
+                    onChange={(option) => form.setFieldValue(field.name, option.value)}
+                    onBlur={field.onBlur}
+                    placeholder={placeholder}
+                />
+            )
+        } else {
+            return (
+                <Select
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                    name={field.name}
+                    value={getValue()}
+                    onChange={onChange}
+                    options={options}
+                    isMulti={true}
+                    placeholder={placeholder}
+                />
+            )
+        }
+    }
+
+    const onSubmitUserForm = async (values, { setSubmitting }) => {
         setLoading(true);
         // Call your API here
                 // Prepare the JSON with the values
@@ -62,7 +108,7 @@ const UserCreation = () => {
             "role": role
           }
   
-        await callMyAPI("https://blinkinvoice-backend.vercel.app/companyprofile", dataToSend);
+        await callMyAPI("https://blinkinvoice-backend.vercel.app/user", dataToSend);
 
         setSubmitting(false); 
     };
@@ -73,7 +119,7 @@ const UserCreation = () => {
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={onSubmitProfileForm}
+                onSubmit={onSubmitUserForm}
             >
                 {({ isSubmitting, errors, touched }) => (
                     <Form className="space-y-6">
@@ -180,7 +226,7 @@ const UserCreation = () => {
                                 className="inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 disabled={isSubmitting}
                             >
-                                {loading ? 'Creating Account ...' : 'Next'}
+                                {loading ? 'Creating User ...' : 'Next'}
                             </button>
                         </div>
                     </Form>
